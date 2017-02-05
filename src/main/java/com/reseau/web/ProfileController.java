@@ -18,6 +18,7 @@ import com.reseau.model.Utilisateur;
 import com.reseau.service.IAttribuerService;
 import com.reseau.service.IClasseService;
 import com.reseau.service.IEtatAmisService;
+import com.reseau.service.IMessagerieService;
 import com.reseau.service.IPosteService;
 import com.reseau.service.IUtilisateurService;
 
@@ -34,6 +35,8 @@ public class ProfileController {
 	private IPosteService posteMetier;
 	@Autowired
 	private IClasseService classeMetier;
+	@Autowired
+	private IMessagerieService messagerieMetier;
 	/*@Autowired
 	private ITypeService typeMetier;*/
 	
@@ -60,6 +63,8 @@ public class ProfileController {
 		List<Poste> postes = posteMetier.afficherAmisTager(utilisateur);
 		Collections.sort(postes,Collections.reverseOrder());
 		afficherPostes(postes);
+		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		model.addAttribute("nbrMsg", nbrMsg);
 		model.addAttribute("type", typeUtilisateur);
 		model.addAttribute("user", utilisateur);
 		model.addAttribute("nbrAmis", nbrAmis);
@@ -101,6 +106,8 @@ public class ProfileController {
 			afficherPostes(postes);
 			if(etatAmis!=null && etatAmis.getEtat().equals("accepter")) model.addAttribute("amis", "oui");
 			else model.addAttribute("amis", "non");
+			int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+			model.addAttribute("nbrMsg", nbrMsg);
 			model.addAttribute("user", utilisateur);
 			model.addAttribute("userSearch", utilisateur2);
 			model.addAttribute("ecole", ecoles);

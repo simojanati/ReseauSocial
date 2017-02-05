@@ -17,6 +17,7 @@ import com.reseau.model.Utilisateur;
 import com.reseau.service.IAttribuerService;
 import com.reseau.service.IClasseService;
 import com.reseau.service.ICommenterService;
+import com.reseau.service.IMessagerieService;
 import com.reseau.service.IPosteService;
 import com.reseau.service.IRelationService;
 import com.reseau.service.IUtilisateurService;
@@ -36,6 +37,8 @@ public class GroupeController {
 	private IPosteService posteMetier;
 	@Autowired
 	private ICommenterService commenterMetier;
+	@Autowired
+	private IMessagerieService messagerieMetier;
 	/*@Autowired
 	private ITypeService typeMetier;*/
 	
@@ -84,6 +87,8 @@ public class GroupeController {
 			nbrGroupe = classeMetier.afficherNbeClasses(utilisateur);
 			groupes = classeMetier.afficherToutLesClassesParUtilisateur(utilisateur);
 		}
+		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		model.addAttribute("nbrMsg", nbrMsg);
 		model.addAttribute("user", utilisateur);
 		model.addAttribute("nbrGroupe", nbrGroupe);
 		model.addAttribute("groupes",groupes);
@@ -102,6 +107,8 @@ public class GroupeController {
 			groupes = classeMetier.afficherToutLesClassesParUtilisateur(utilisateur);
 		}
 		commenterMetier.ajouterCommentaire(utilisateur, poste, message);
+		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		model.addAttribute("nbrMsg", nbrMsg);
 		model.addAttribute("user", utilisateur);
 		model.addAttribute("nbrGroupe", nbrGroupe);
 		model.addAttribute("groupes",groupes);

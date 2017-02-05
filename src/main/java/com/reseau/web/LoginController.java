@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.reseau.model.Classe;
 import com.reseau.model.Utilisateur;
 import com.reseau.service.IAttribuerService;
+import com.reseau.service.IMessagerieService;
 import com.reseau.service.IUtilisateurService;
 
 @Controller
@@ -19,6 +20,8 @@ public class LoginController {
 	private IUtilisateurService utilisateurMetier;
 	@Autowired
 	private IAttribuerService attribuerMetier;
+	@Autowired
+	private IMessagerieService messagerieMetier;
 	
 	@RequestMapping("/login")
 	public String index(){
@@ -43,6 +46,8 @@ public class LoginController {
 		Utilisateur utilisateur = utilisateurMetier.getConnectedManInfo();
 		int nbrGroupe = attribuerMetier.nbrGroupe(utilisateur);
 		List<Classe> groupes = attribuerMetier.afficherLesGroupes(utilisateur);
+		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		model.addAttribute("nbrMsg", nbrMsg);
 		model.addAttribute("user", utilisateur);
 		model.addAttribute("nbrGroupe", nbrGroupe);
 		model.addAttribute("groupes",groupes);

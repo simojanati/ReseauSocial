@@ -21,23 +21,30 @@
     th:href="@{/plugins/fullcalendar/fullcalendar.print.css}"/>
   <link rel="stylesheet" href="../static/plugins/iCheck/flat/blue.css"
     th:href="@{/plugins/iCheck/flat/blue.css}"/>
-    
- <!--    
-<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
-  Font Awesome
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
-  Ionicons
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
-  fullCalendar 2.2.5
-  <link rel="stylesheet" href="../plugins/fullcalendar/fullcalendar.min.css"/>
-  <link rel="stylesheet" href="../plugins/fullcalendar/fullcalendar.print.css" media="print" />
-  Theme style
-  <link rel="stylesheet" href="../dist/css/AdminLTE.min.css" />
-  AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load.
-  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css" />
-  iCheck
-  <link rel="stylesheet" href="../plugins/iCheck/flat/blue.css" /> -->
+ <style type="text/css">
+  	.table-responsive{
+  		overflow: auto;
+  		max-height: 350px;
+  	}
+  	::-webkit-scrollbar {
+     	width: 15px;
+	}
+  	::-webkit-scrollbar-track {
+      	background-color: #A4A4A4;
+	}
+	 
+	::-webkit-scrollbar-thumb {
+	    background-color: rgba(0, 0, 0, 0.2); 
+	}
+	 
+	::-webkit-scrollbar-button {
+	    background-color: #A4A4A4;
+	} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+	 
+	::-webkit-scrollbar-corner {
+	    background-color: black;
+	}
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
 <div class="wrapper" layout:fragment="content">
@@ -49,10 +56,10 @@
     <section class="content-header">
       <h1>
         Messagerie
-        <small>3 nouveaux messages</small>
+        <small><label th:text="${nbrMsg}"></label> nouveaux messages</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a th:href="@{/index}"><i class="fa fa-dashboard"></i> Accueil</a></li>
         <li class="active">Messagerie</li>
       </ol>
     </section>
@@ -74,8 +81,8 @@
             </div>
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
-                  <span class="label label-primary pull-right">3</span></a></li>
+                <li class="active"><a th:href="@{/inbox}"><i class="fa fa-inbox"></i> Boîte de réception
+                  <span class="label label-primary pull-right"><label th:text="${nbrMsg}"></label></span></a></li>
                 
                 <li><a href="#"><i class="fa fa-trash-o"></i> supprimer</a></li>
               </ul>
@@ -90,11 +97,11 @@
         <div class="col-md-9">
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Inbox</h3>
+              <h3 class="box-title">Boîte de réception</h3>
 
               <div class="box-tools pull-right">
                 <div class="has-feedback">
-                  <input type="text" class="form-control input-sm" placeholder="Search Mail"/>
+                  <input type="text" class="form-control input-sm" placeholder="Chercher Message"/>
                   <span class="glyphicon glyphicon-search form-control-feedback"></span>
                 </div>
               </div>
@@ -108,52 +115,26 @@
                 </button>
                 <div class="btn-group">
                   <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
                 </div>
                 <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                <div class="pull-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
+                <a th:href="@{/inbox}"><button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button></a>
+                
                 <!-- /.pull-right -->
               </div>
               <div class="table-responsive Messagerie-messages">
                 <table class="table table-hover table-striped">
                   <tbody>
-                  <tr>
+                  
+                  <tr th:each="m:${msgRecue}">
+                  
                     <td><input type="checkbox"/></td>
-                    <td class="Messagerie-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
-                    <td class="Messagerie-name"><a href="read-mail.html">ismail khatiri</a></td>
-                    <td class="Messagerie-subject"><b>A propos du cours de demain</b> 
+                    <td class="Messagerie-star"><i class="fa fa-star text-yellow" th:if="${m.vu} == false"></i><i class="fa fa-star-o text-yellow" th:if="${m.vu} == true"></i></td>
+                    <td class="Messagerie-name"><label th:text="${m.utilisateurEnvoie.nom}"></label> <label th:text="${m.utilisateurEnvoie.prenom}"></label></td>
+                    <td class="Messagerie-subject"><b><label th:text="${m.objet}"></label></b> 
                     </td>
-                    <td class="Messagerie-attachment"></td>
-                    <td class="Messagerie-date">20:40</td>
+                    <td class="Messagerie-date"><label th:text="${#dates.format(m.date, 'dd/MM/YYYY à HH:mm')}"></label></td>
+                  
                   </tr>
-                  <tr>
-                    <td><input type="checkbox"/></td>
-                    <td class="Messagerie-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
-                    <td class="Messagerie-name"><a href="read-mail.html">sabrine tlamcamani</a></td>
-                    <td class="Messagerie-subject"><b>A propos d'un groupe</b> 
-                    </td>
-                    <td class="Messagerie-attachment"><i class="fa fa-paperclip"></i></td>
-                    <td class="Messagerie-date">hier</td>
-                  </tr>
-				   <tr>
-                    <td><input type="checkbox"/></td>
-                    <td class="Messagerie-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
-                    <td class="Messagerie-name"><a href="read-mail.html">bachir elyakoubi</a></td>
-                    <td class="Messagerie-subject"><b>A propos d'une formation</b>
-                    </td>
-                    <td class="Messagerie-attachment"><i class="fa fa-paperclip"></i></td>
-                    <td class="Messagerie-date">Samedi</td>
-                  </tr>
-                
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -162,27 +143,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer no-padding">
-              <div class="Messagerie-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                <div class="pull-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.pull-right -->
-              </div>
+              
             </div>
           </div>
           <!-- /. box -->

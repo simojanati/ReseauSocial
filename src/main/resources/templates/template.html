@@ -50,23 +50,23 @@
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">1</span>
+              <span class="label label-success"><label th:text="${nbrMsg}"></label></span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">Vous avez 1 messages</li>
+              <li class="header">Vous avez <label th:text="${nbrMsg}"></label> messages</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <li><!-- start message -->
-                    <a href="#" class="msg" title="wa feen akhay simo ara lya floussi adak chfar">
+                  <li th:each="m:${msgRecue}"><!-- start message -->
+                    <a href="#" class="msg" th:if="${m.vu} == false">
                       <div class="pull-left">
-                        <img src="../dist/img/kadani.jpg" class="img-circle" alt="User Image"/>
+                        <img th:src="${m.utilisateurEnvoie.photo}" class="img-circle" alt="User Image"/>
                       </div>
                       <h4>
-                        <label> kadani anas</label>
-                        <small><i class="fa fa-clock-o"></i> 5 min</small>
+                        <label th:text="${m.utilisateurEnvoie.nom}"></label> <label th:text="${m.utilisateurEnvoie.prenom}"></label>
+                        <small><i class="fa fa-clock-o"></i> <label th:text="${#dates.format(m.date, 'dd/MM/YYYY à HH:mm')}"></label></small>
                       </h4>
-                      <p >wa feen akhay simo ara lya floussi adak chfar</p>
+                      <p th:text="${m.objet}"></p>
                     </a>
                   </li>
                   <!-- end message -->
@@ -218,14 +218,14 @@
             <i class="fa fa-envelope"></i>
             <span>Messagerie</span>
             <span class="pull-right-container">
-              <span class="label label-primary pull-right" >4</span>
+              <span class="label label-primary pull-right" ><label th:text="${nbrMsg}"></label></span>
             </span>
           </a>
           <ul class="treeview-menu">
             <li class="active">
               <a th:href="@{/inbox}">Boîte de réception
                 <span class="pull-right-container">
-                  <span class="label label-primary pull-right">4</span>
+                  <span class="label label-primary pull-right"><label th:text="${nbrMsg}"></label></span>
                 </span>
               </a>
             </li>

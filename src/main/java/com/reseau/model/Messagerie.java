@@ -9,9 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 @Entity
-public class Messagerie implements Serializable{
+public class Messagerie implements Serializable,Comparable<Messagerie>{
 
 	/**
 	 * 
@@ -21,6 +22,7 @@ public class Messagerie implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idMesagerie;
 	private Date date;
+	@Lob
 	private String message;
 	private String objet;
 	@ManyToOne
@@ -104,6 +106,13 @@ public class Messagerie implements Serializable{
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	@Override
+	public int compareTo(Messagerie o) {
+		int cmprDate = this.date.compareTo(o.date);
+		if(cmprDate != 0) return cmprDate;
+		return 0;
 	}
 	
 	

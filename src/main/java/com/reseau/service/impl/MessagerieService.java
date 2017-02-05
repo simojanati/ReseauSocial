@@ -20,8 +20,8 @@ public class MessagerieService implements IMessagerieService {
 	private IMessagerieRepository messagerieRepository;
 	
 	@Override
-	public void ajouterMessage(Date date, String message, String objet, Utilisateur utilisateurEnvoie, Utilisateur utilisateurRecoie) {
-		Messagerie messagerie = new Messagerie(date, message, objet, utilisateurEnvoie, utilisateurRecoie, false);
+	public void ajouterMessage(String message, String objet, Utilisateur utilisateurEnvoie, Utilisateur utilisateurRecoie) {
+		Messagerie messagerie = new Messagerie(new Date(), message, objet, utilisateurEnvoie, utilisateurRecoie, false);
 		messagerieRepository.save(messagerie);
 	}
 
@@ -48,6 +48,21 @@ public class MessagerieService implements IMessagerieService {
 		Messagerie messagerie = messagerieRepository.findOne(idMessagerie);
 		if(messagerie==null) throw new RuntimeException("Message introuvable");
 		return messagerie;
+	}
+
+	@Override
+	public int afficherNbrMessageNonVu(Utilisateur utilisateur) {
+		return messagerieRepository.afficherNombreGroupe(utilisateur);
+	}
+
+	@Override
+	public List<Messagerie> afficherMessagesRecue(Utilisateur utilisateur) {
+		return messagerieRepository.afficherLesMessageRecue(utilisateur);
+	}
+
+	@Override
+	public List<Messagerie> afficherMessagesEnvoyer(Utilisateur utilisateur) {
+		return messagerieRepository.afficherLesMessageEnvoyer(utilisateur);
 	}
 
 }

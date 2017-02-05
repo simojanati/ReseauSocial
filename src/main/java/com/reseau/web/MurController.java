@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.reseau.model.Classe;
 import com.reseau.model.Etudiant;
+import com.reseau.model.Messagerie;
 import com.reseau.model.Poste;
 import com.reseau.model.Professeur;
 import com.reseau.model.Utilisateur;
 import com.reseau.service.IAttribuerService;
 import com.reseau.service.IClasseService;
 import com.reseau.service.IEtatAmisService;
+import com.reseau.service.IMessagerieService;
 import com.reseau.service.IPosteService;
 import com.reseau.service.IUtilisateurService;
 
@@ -32,6 +34,8 @@ public class MurController {
 	private IPosteService posteMetier;
 	@Autowired
 	private IClasseService classeMetier;
+	@Autowired
+	private IMessagerieService messagerieMetier;
 	
 	@RequestMapping("/index")
 	public String index(Model model){
@@ -49,6 +53,11 @@ public class MurController {
 		List<Utilisateur> utilisateurs = etatAmisMetier.afficherLesAmis(utilisateur);
 		List<Poste> postes = posteMetier.afficherPostesAmis(utilisateur, utilisateurs);
 		Collections.sort(postes,Collections.reverseOrder());
+		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		List<Messagerie> messageriesRecu = messagerieMetier.afficherMessagesRecue(utilisateur);
+		Collections.sort(messageriesRecu,Collections.reverseOrder());
+		model.addAttribute("msgRecue", messageriesRecu);
+		model.addAttribute("nbrMsg", nbrMsg);
 		model.addAttribute("user", utilisateur);
 		model.addAttribute("nbrGroupe", nbrGroupe);
 		model.addAttribute("groupes",groupes);
