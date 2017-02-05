@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+  layout:decorator="template">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>Groupe</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+ 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}"/>
+  <link rel="stylesheet" href="../static/dist/css/skins/_all-skins.min.css" th:href="@{/dist/css/skins/_all-skins.min.css}"/>
+  <style type="text/css">
+  	.scrollbar-inner{
+  		overflow: auto;
+  		max-height: 150px;
+  	}
+  	::-webkit-scrollbar {
+     	width: 15px;
+	}
+  	::-webkit-scrollbar-track {
+      	background-color: #A4A4A4;
+	}
+	 
+	::-webkit-scrollbar-thumb {
+	    background-color: rgba(0, 0, 0, 0.2); 
+	}
+	 
+	::-webkit-scrollbar-button {
+	    background-color: #A4A4A4;
+	} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+	 
+	::-webkit-scrollbar-corner {
+	    background-color: black;
+	}
+  </style>
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+
+<div class="wrapper" layout:fragment="content">
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+         Groupe
+      </h1>
+      <ol class="breadcrumb">
+        <li><a th:href="@{/index}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        
+        <li class="active"> Groupe</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" th:src="${groupe.Photo}" alt="User profile picture"/>
+
+              <h3 class="profile-username text-center"><label th:text="${groupe.Nom}"></label></h3>
+
+              <p class="text-muted text-center"><label th:text="${#dates.format(groupe.date_creation, 'dd MMMMM YYYY')}"></label></p>
+              
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Membres</b> <a class="pull-right"><label th:text="${nbrEtudiants}"></label></a>
+                </li>
+              </ul>
+
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- About Me Box -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">À propos de groupe</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <strong><i class="fa fa-book margin-r-5"></i> Description</strong>
+
+              <p class="text-muted">
+               <label th:text="${groupe.description}"></label>
+              </p>
+              <hr/>
+              
+              <strong><i class="fa fa-user"></i> Responsable</strong>
+
+              <p class="text-muted"> <label th:text="${groupe.utilisateur.nom}"></label> <label th:text="${groupe.utilisateur.prenom}"></label></p>
+
+              <hr/>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#activité" data-toggle="tab">activité</a></li>
+              <li sec:authorize="hasRole('ROLE_PROFESSEUR')"><a href="#Modification" data-toggle="tab">Modification</a></li>
+              <li><a href="#Membres" data-toggle="tab">Membres</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane" id="activité">
+                <!-- Post -->
+                
+                <div class="nav-tabs-custom">
+            
+            <ul class="nav nav-tabs">
+	           <li class="active"><a href="#Text" data-toggle="tab">Text</a></li>
+	           <li><a href="#Image" data-toggle="tab">Image</a></li>
+	           <li><a href="#Fichier" data-toggle="tab">Fichier</a></li>
+	        </ul>
+            <div class="tab-content">
+              <div class="active tab-pane" id="Text">
+                <div class="post" >
+					<form  role="form" name="form" th:action="@{/ajouterStatutG}" method="POST" enctype="multipart/form-data">
+						<input type="hidden" name="type" value="Text" />
+						<input type="hidden" name="idGroupe" th:value="${groupe.idClasse}" />
+					    <div class="form-group">
+					    	<textarea name="statut" class="form-control" placeholder="Saisissez votre statut" rows="3"></textarea>
+					    </div>
+					    <button type="submit" class="btn btn-primary"><i class="icon icon-check icon-lg"></i> Publier</button>
+					    
+					</form>                
+                </div>
+                <br/>
+              </div>
+              <div class="tab-pane" id="Image">
+                <div class="post">
+					<form  role="form" name="form" th:action="@{/ajouterStatutG}" method="POST" enctype="multipart/form-data">
+						<input type="hidden" name="type" value="Image" />
+						<input type="hidden" name="idGroupe" th:value="${groupe.idClasse}" />
+				        <div class="form-group" id="image">
+					    	<input type="file" name="file" accept="image/*" id="exampleInputFile" />
+					    </div>
+					    <div class="form-group">
+					    	<textarea name="statut" class="form-control" placeholder="Saisissez votre statut" rows="3"></textarea>
+					    </div>
+					    <button type="submit" class="btn btn-primary"><i class="icon icon-check icon-lg"></i> Publier</button>
+					    
+					</form>                
+                </div>
+                 <br/>
+               </div>
+               <div class="tab-pane" id="Fichier">
+                <div class="post" >
+					<form  role="form" name="form" th:action="@{/ajouterStatutG}" method="POST" enctype="multipart/form-data">
+						<input type="hidden" name="type" value="Fichier" />
+						<input type="hidden" name="idGroupe" th:value="${groupe.idClasse}" />
+				        <div class="form-group" id="image">
+					    	<input type="file" name="file" accept="xlsx,.xls,.doc,.docx,.ppt,.pptx,.txt,.pdf" id="exampleInputFile" value="Choisissez une image" />
+					    </div>
+					    <div class="form-group">
+					    	<textarea name="statut" class="form-control" placeholder="Saisissez votre statut" rows="3"></textarea>
+					    </div>
+					    <button type="submit" class="btn btn-primary"><i class="icon icon-check icon-lg"></i> Publier</button>
+					    
+					</form>                
+                </div>
+                 <br/>
+               </div>
+                <div class="post" th:each="p:${postes}">
+                  <div class="user-block">
+                    <img class="img-circle img-bordered-sm" th:src="${p.utilisateur.photo}" alt="user image"/>
+                        <span class="username">
+                          <a th:href="@{/profileChercher(username=${p.utilisateur.username})}"><label th:text="${p.utilisateur.nom}"></label> <label th:text="${p.utilisateur.prenom}"></label></a>
+                          <a href="#" class="pull-right btn-box-tool"><!-- <i class="fa fa-times"></i> --></a>
+                        </span>
+                    <span class="description">Publié le <label th:text="${#dates.format(p.date, 'dd MMMMM YYYY à HH:mm')}"></label> </span>
+                  </div>
+                  <!-- /.user-block -->
+                  <p th:text="${p.statut}"></p>
+                  <img th:if="${p.type.message} == 'Image'" th:src="${p.lien}" width="20%" />
+                  
+                  <div th:if="${p.type.message} == 'Fichier'">
+                  	<ul class="mailbox-attachments clearfix">
+		                <li>
+		                  <span class="mailbox-attachment-icon"><i class="fa fa-file-text-o"></i></span>
+		                  <div class="mailbox-attachment-info">
+		                    <a th:href="${p.lien}" class="mailbox-attachment-name" target="_blank"><i class="fa fa-paperclip"></i> <label th:text="${p.nomLien}"></label></a>
+		                    <a th:href="${p.lien}" th:attr="download=${p.nomLien}" class="btn btn-default btn-xs pull-right" target="_blank"><i class="fa fa-cloud-download"></i></a>
+		                  </div>
+		                </li>
+		             </ul>
+                  	<!-- <a th:href="${p.lien}" target="_blank" ><img src="../dist/img/fichier.png" width="35px" height="45px"/></a><br/>
+                  	<a th:href="${p.lien}" th:attr="download=${p.nomLien}" th:text="${p.nomLien}" target="_blank" ></a> -->
+                  </div>
+                   <br/><br/>
+             <div class="box box-primary">
+            <div class="box-header">
+              <i class="fa fa-comments-o"></i>
+
+              <h3 class="box-title">Commentaire</h3>
+
+              <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
+               
+              </div>
+            </div>
+            <div class="scrollbar-inner" >
+            <div class="box-body chat" id="chat-box" style="width: auto;">
+              <!-- chat item -->
+              <div class="item" th:each="c:${p.commenters}">
+                <img th:src="${c.utilisateur.photo}" alt="user image" class="img-circle img-bordered-sm" />
+                <p class="message">
+                  <a th:href="@{/profileChercher(username=${p.utilisateur.username})}" class="name">
+                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> <label th:text="${#dates.format(c.date, 'dd MMMMM YYYY à HH:mm')}"></label></small>
+                    <label th:text="${c.utilisateur.nom}"></label> <label th:text="${c.utilisateur.prenom}"></label>
+                  </a>
+                  <label th:text="${c.Message}"></label>
+                </p>
+                
+                <!-- /.attachment -->
+              </div>
+              <!-- /.item -->
+              
+              
+            </div>
+            </div>
+            <!-- /.chat -->
+            <div class="box-footer">
+              <form  role="form" name="form" th:action="@{/ajouterCommentaireG}" method="POST" enctype="multipart/form-data">
+              <div class="input-group">
+              
+                <input class="form-control" name="message" placeholder="veuillez saisir votre commentaire..." />
+				<input type="hidden" name="poste" th:value="${p.idPoste}" />
+				<input type="hidden" name="idGroupe" th:value="${groupe.idClasse}" />
+                <div class="input-group-btn">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                </div>
+              
+              </div>
+              </form>
+            </div>
+          </div>
+                </div>
+              
+            </div>
+            <!-- /.tab-content -->
+          </div>
+               
+                <!-- /.post -->
+              </div>
+              <!-- /.tab-pane -->
+              
+              <!-- /.tab-pane -->
+
+              <div sec:authorize="hasRole('ROLE_PROFESSEUR')" class="tab-pane" id="Modification">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Nom</label>
+
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputName" placeholder="Name"/>
+                    </div>
+                  </div>
+				  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Prenom</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName" placeholder="Name"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputEmail" placeholder="Email"/>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSkills" class="col-sm-2 control-label">Compétence</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills"/>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-danger">Modifier</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.tab-pane -->
+              
+              
+              <div class="tab-pane" id="Membres">
+
+                <div sec:authorize="hasRole('ROLE_PROFESSEUR')" class="post">
+					<form th:action="@{/ajouterMembre}" method="GET" class="sidebar-form">
+					<br/>
+				        <div class="input-group">
+				          <input type="text" name="username" class="form-control" placeholder="Ajouter un membre"/>
+				              <span class="input-group-btn">
+				                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-plus-square"></i>
+				                </button>
+				              </span>
+				        </div>
+				     </form>                
+                </div>
+                <ul class="menu">
+                  <li th:each="e:${etudiants}" style="list-style:none;"><!-- start message -->
+                    <a th:href="@{/profileChercher(username=${e.username})}" class="msg" >
+                        <img th:src="${e.photo}" class="img-circle" width="35px" height="35px" alt="User Image"/>
+                        &nbsp;&nbsp;<label th:text="${e.nom}"></label> <label th:text="${e.prenom}"></label>
+                    </a>
+                    <br/>
+                    <br/>
+                  </li>
+                  <!-- end message -->
+                  
+                </ul>
+                <br/>
+   
+              </div>
+              
+              
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane" id="control-sidebar-home-tab">
+        <h3 class="control-sidebar-heading">Activité récente</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Anniversaire de Janati</h4>
+
+                <p>Sera 16 le 17 Novembre</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-user bg-yellow"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Kadani a mis à jour son profil</h4>
+
+                <p>Nouveau téléphone +(212)618-180103</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Bachir a rejoint la liste de diffusion</h4>
+
+                <p>bachir@example.com</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">khatiri Job 254 Exécuté</h4>
+
+                <p>Temps d'exécution 5 secondes</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+        <h3 class="control-sidebar-heading">Tâches Progrès</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Conception de modèles personnalisés
+                <span class="label label-danger pull-right">70%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Mettre à jour le CV
+                <span class="label label-success pull-right">95%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Intégration Laravel
+                <span class="label label-warning pull-right">50%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Cadre arrière
+                <span class="label label-primary pull-right">68%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Stats tab content -->
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">Paramètres Général</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Utilisation du panneau de rapport
+              <input type="checkbox" class="pull-right" checked="true"/>
+            </label>
+
+            <p>
+              Quelques informations sur cette option générale des paramètres
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Autoriser la redirection de courrier
+              <input type="checkbox" class="pull-right" checked="true"/>
+            </label>
+
+            <p>
+              D'autres ensembles d'options sont disponibles
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Exposer le nom de l'auteur dans les messages
+              <input type="checkbox" class="pull-right" checked="true"/>
+            </label>
+
+            <p>
+              Permettre à l'utilisateur de montrer son nom dans les billets de blog
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <h3 class="control-sidebar-heading">Paramètres de discussion</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Montrez-moi en ligne
+              <input type="checkbox" class="pull-right" checked="true"/>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Désactiver les notifications
+              <input type="checkbox" class="pull-right"/>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Supprimer l'historique des conversations
+              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
+</div>
+
+
+<script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<!-- FastClick -->
+<script th:src="@{/plugins/fastclick/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/dist/js/demo.js}"></script>
+</body>
+</html>
