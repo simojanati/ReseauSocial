@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/Layout">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>Authentification</title>
+  <link rel="icon" type="image/png" href="../dist/img/logo.png" />
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}"/>
+  <link rel="stylesheet" href="../static/plugins/iCheck/square/blue.css" th:href="@{/plugins/iCheck/square/blue.css}" />
+
+
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="index"><b>RS </b><i class="fa fa-book margin-r-5"></i> EDUCATION</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+  
+  	
+  	
+    <p class="login-box-msg">Connectez-vous pour démarrer votre session</p>
+	<div th:if="${param.error}" style="color: red">
+  		Le nom d'utilisateur ou le mot de passe incorrect
+  	</div>
+  	<div th:if="${param.logout}" style="color: red">
+  		vous avez été déconnecté
+  	</div>
+  	<br/>
+    <form th:action="@{/login}" method="Post">
+      <div class="form-group has-feedback">
+        <input name="username" type="text" class="form-control" placeholder="Nom d'utilisateur"/>
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input name="password" type="password" class="form-control" placeholder="Mot de passe"/>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+              <input type="checkbox"/> Souviens-toi de moi
+            </label>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Connecter</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+    <div class="social-auth-links text-center">
+      
+      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i>Visitez notre page
+        Facebook</a>
+      
+    </div>
+    <!-- /.social-auth-links -->
+
+    <!-- <center><a href="#">j'ai oublié mon mot de passe</a><br/></center> -->
+    
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery 2.2.3 -->
+<script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!-- iCheck -->
+<script th:src="@{/plugins/iCheck/icheck.min.js}"></script>
+<script>
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' // optional
+    });
+  });
+</script>
+</body>
+</html>

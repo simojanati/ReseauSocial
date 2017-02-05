@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
+  layout:decorator="template">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>403</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <link rel="icon" type="image/png" href="../dist/img/logo.png" />
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+  <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+  	th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+  <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css"
+  	th:href="@{/dist/css/AdminLTE.min.css}"/>
+  <link rel="stylesheet" href="../static/dist/css/skins/_all-skins.min.css"
+  	th:href="@{/dist/css/skins/_all-skins.min.css}"/>
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+<div class="wrapper" layout:fragment="content">
+<div class="content-wrapper">
+<a th:href="@{/index}"><img  src="../dist/img/403.png" alt="erreur" /></a>
+</div>                      
+</div>
+
+
+<script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/plugins/fastclick/fastclick.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/demo.js}"></script>
+
+</body>
+</html>

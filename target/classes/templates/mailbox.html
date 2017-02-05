@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+  layout:decorator="template">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+  <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+  	th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+  <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css"
+  	th:href="@{/dist/css/AdminLTE.min.css}"/>
+  <link rel="stylesheet" href="../static/dist/css/skins/_all-skins.min.css"
+  	th:href="@{/dist/css/skins/_all-skins.min.css}"/>
+  <link rel="stylesheet" href="../static/plugins/fullcalendar/fullcalendar.min.css"
+    th:href="@{/plugins/fullcalendar/fullcalendar.min.css}"/>
+  <link rel="stylesheet" href="../static/plugins/fullcalendar/fullcalendar.print.css" media="print"
+    th:href="@{/plugins/fullcalendar/fullcalendar.print.css}"/>
+  <link rel="stylesheet" href="../static/plugins/iCheck/flat/blue.css"
+    th:href="@{/plugins/iCheck/flat/blue.css}"/>
+    
+ <!--    
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+  Font Awesome
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+  Ionicons
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+  fullCalendar 2.2.5
+  <link rel="stylesheet" href="../plugins/fullcalendar/fullcalendar.min.css"/>
+  <link rel="stylesheet" href="../plugins/fullcalendar/fullcalendar.print.css" media="print" />
+  Theme style
+  <link rel="stylesheet" href="../dist/css/AdminLTE.min.css" />
+  AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load.
+  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css" />
+  iCheck
+  <link rel="stylesheet" href="../plugins/iCheck/flat/blue.css" /> -->
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+<div class="wrapper" layout:fragment="content">
+
+  
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Messagerie
+        <small>3 nouveaux messages</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Messagerie</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-3">
+          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Envoyer un message</a>
+
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title"></h3>
+
+              <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body no-padding">
+              <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
+                  <span class="label label-primary pull-right">3</span></a></li>
+                
+                <li><a href="#"><i class="fa fa-trash-o"></i> supprimer</a></li>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Inbox</h3>
+
+              <div class="box-tools pull-right">
+                <div class="has-feedback">
+                  <input type="text" class="form-control input-sm" placeholder="Search Mail"/>
+                  <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                </div>
+              </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="Messagerie-controls">
+                <!-- Check all button -->
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                <div class="pull-right">
+                  1-50/200
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                  </div>
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.pull-right -->
+              </div>
+              <div class="table-responsive Messagerie-messages">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                  <tr>
+                    <td><input type="checkbox"/></td>
+                    <td class="Messagerie-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
+                    <td class="Messagerie-name"><a href="read-mail.html">ismail khatiri</a></td>
+                    <td class="Messagerie-subject"><b>A propos du cours de demain</b> 
+                    </td>
+                    <td class="Messagerie-attachment"></td>
+                    <td class="Messagerie-date">20:40</td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox"/></td>
+                    <td class="Messagerie-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
+                    <td class="Messagerie-name"><a href="read-mail.html">sabrine tlamcamani</a></td>
+                    <td class="Messagerie-subject"><b>A propos d'un groupe</b> 
+                    </td>
+                    <td class="Messagerie-attachment"><i class="fa fa-paperclip"></i></td>
+                    <td class="Messagerie-date">hier</td>
+                  </tr>
+				   <tr>
+                    <td><input type="checkbox"/></td>
+                    <td class="Messagerie-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
+                    <td class="Messagerie-name"><a href="read-mail.html">bachir elyakoubi</a></td>
+                    <td class="Messagerie-subject"><b>A propos d'une formation</b>
+                    </td>
+                    <td class="Messagerie-attachment"><i class="fa fa-paperclip"></i></td>
+                    <td class="Messagerie-date">Samedi</td>
+                  </tr>
+                
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+              <div class="Messagerie-controls">
+                <!-- Check all button -->
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                <div class="pull-right">
+                  1-50/200
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                  </div>
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.pull-right -->
+              </div>
+            </div>
+          </div>
+          <!-- /. box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane" id="control-sidebar-home-tab">
+        <h3 class="control-sidebar-heading">Activité récente</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Anniversaire de Janati</h4>
+
+                <p>Sera 16 le 17 Novembre</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-user bg-yellow"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Kadani a mis à jour son profil</h4>
+
+                <p>Nouveau téléphone +(212)618-180103</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Bachir a rejoint la liste de diffusion</h4>
+
+                <p>bachir@example.com</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">khatiri Job 254 Exécuté</h4>
+
+                <p>Temps d'exécution 5 secondes</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+        <h3 class="control-sidebar-heading">Tâches Progrès</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Conception de modèles personnalisés
+                <span class="label label-danger pull-right">70%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Mettre à jour le CV
+                <span class="label label-success pull-right">95%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Intégration Laravel
+                <span class="label label-warning pull-right">50%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Cadre arrière
+                <span class="label label-primary pull-right">68%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Stats tab content -->
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">Paramètres Général</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Utilisation du panneau de rapport
+              <input type="checkbox" class="pull-right" checked="true"/>
+            </label>
+
+            <p>
+              Quelques informations sur cette option générale des paramètres
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Autoriser la redirection de courrier
+              <input type="checkbox" class="pull-right" checked="true"/>
+            </label>
+
+            <p>
+              D'autres ensembles d'options sont disponibles
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Exposer le nom de l'auteur dans les messages
+              <input type="checkbox" class="pull-right" checked="true"/>
+            </label>
+
+            <p>
+              Permettre à l'utilisateur de montrer son nom dans les billets de blog
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <h3 class="control-sidebar-heading">Paramètres de discussion</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Montrez-moi en ligne
+              <input type="checkbox" class="pull-right" checked="true"/>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Désactiver les notifications
+              <input type="checkbox" class="pull-right"/>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Supprimer l'historique des conversations
+              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+
+<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<!-- iCheck -->
+<script th:src="@{/plugins/iCheck/icheck.min.js}"></script>
+<!-- Page Script -->
+
+<script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/plugins/fastclick/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/dist/js/demo.js}"></script>
+<script>
+  $(function () {
+    //Enable iCheck plugin for checkboxes
+    //iCheck for checkbox and radio inputs
+    $('.Messagerie-messages input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_flat-blue',
+      radioClass: 'iradio_flat-blue'
+    });
+
+    //Enable check and uncheck all functionality
+    $(".checkbox-toggle").click(function () {
+      var clicks = $(this).data('clicks');
+      if (clicks) {
+        //Uncheck all checkboxes
+        $(".Messagerie-messages input[type='checkbox']").iCheck("uncheck");
+        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+      } else {
+        //Check all checkboxes
+        $(".Messagerie-messages input[type='checkbox']").iCheck("check");
+        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+      }
+      $(this).data("clicks", !clicks);
+    });
+
+    //Handle starring for glyphicon and font awesome
+    $(".Messagerie-star").click(function (e) {
+      e.preventDefault();
+      //detect type
+      var $this = $(this).find("a > i");
+      var glyph = $this.hasClass("glyphicon");
+      var fa = $this.hasClass("fa");
+
+      //Switch states
+      if (glyph) {
+        $this.toggleClass("glyphicon-star");
+        $this.toggleClass("glyphicon-star-empty");
+      }
+
+      if (fa) {
+        $this.toggleClass("fa-star");
+        $this.toggleClass("fa-star-o");
+      }
+    });
+  });
+</script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+</body>
+</html>

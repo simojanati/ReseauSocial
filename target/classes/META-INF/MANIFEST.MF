@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: ReseauSocial
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: simoj
+Implementation-Vendor-Id: com.reseau
+Build-Jdk: 1.8.0_111
+Implementation-URL: http://projects.spring.io/spring-boot/ReseauSocial
+ /
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
