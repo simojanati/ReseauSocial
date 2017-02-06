@@ -58,7 +58,7 @@
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li th:each="m:${msgRecue}"><!-- start message -->
-                    <a href="#" class="msg" th:if="${m.vu} == false">
+                    <a th:href="@{/lireMessage(idMessage=${m.idMesagerie})}" class="msg" th:if="${m.vu} == false">
                       <div class="pull-left">
                         <img th:src="${m.utilisateurEnvoie.photo}" class="img-circle" alt="User Image"/>
                       </div>
@@ -73,7 +73,7 @@
                   
                 </ul>
               </li>
-              <li class="footer"><a href="#">Voir tous les messages</a></li>
+              <li class="footer"><a href="@{/inbox}">Voir tous les messages</a></li>
             </ul>
           </li>
           <!-- Notifications: style can be found in dropdown.less -->

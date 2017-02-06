@@ -46,7 +46,6 @@ public class MessagerieService implements IMessagerieService {
 	@Override
 	public Messagerie afficherMessage(Long idMessagerie) {
 		Messagerie messagerie = messagerieRepository.findOne(idMessagerie);
-		if(messagerie==null) throw new RuntimeException("Message introuvable");
 		return messagerie;
 	}
 

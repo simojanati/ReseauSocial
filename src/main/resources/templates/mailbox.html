@@ -72,7 +72,7 @@
 
           <div class="box box-solid">
             <div class="box-header with-border">
-              <h3 class="box-title"></h3>
+              <h3 class="box-title">Dossiers</h3>
 
               <div class="box-tools">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -125,14 +125,14 @@
                 <table class="table table-hover table-striped">
                   <tbody>
                   
-                  <tr th:each="m:${msgRecue}">
-                  
+                  <tr th:each="m:${msgRecue}" >
+                  	
                     <td><input type="checkbox"/></td>
-                    <td class="Messagerie-star"><i class="fa fa-star text-yellow" th:if="${m.vu} == false"></i><i class="fa fa-star-o text-yellow" th:if="${m.vu} == true"></i></td>
-                    <td class="Messagerie-name"><label th:text="${m.utilisateurEnvoie.nom}"></label> <label th:text="${m.utilisateurEnvoie.prenom}"></label></td>
-                    <td class="Messagerie-subject"><b><label th:text="${m.objet}"></label></b> 
+                    <td class="Messagerie-star"><a th:href="@{/lireMessage(idMessage=${m.idMesagerie})}"><i class="fa fa-star text-yellow" th:if="${m.vu} == false"></i><i class="fa fa-star-o text-yellow" th:if="${m.vu} == true"></i></a></td>
+                    <td class="Messagerie-name"><a th:href="@{/lireMessage(idMessage=${m.idMesagerie})}"><label th:text="${m.utilisateurEnvoie.nom}"></label> <label th:text="${m.utilisateurEnvoie.prenom}"></label></a></td>
+                    <td class="Messagerie-subject"><a th:href="@{/lireMessage(idMessage=${m.idMesagerie})}"><b><label th:text="${m.objet}"></label></b> </a>
                     </td>
-                    <td class="Messagerie-date"><label th:text="${#dates.format(m.date, 'dd/MM/YYYY à HH:mm')}"></label></td>
+                    <td class="Messagerie-date"><a th:href="@{/lireMessage(idMessage=${m.idMesagerie})}"><label th:text="${#dates.format(m.date, 'dd/MM/YYYY à HH:mm')}"></label></a></td>
                   
                   </tr>
                   </tbody>
