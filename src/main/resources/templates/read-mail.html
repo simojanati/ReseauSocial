@@ -44,10 +44,10 @@
             </div>
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li><a href="mailbox.html"><i class="fa fa-inbox"></i> Boîte de réception
-                  <span class="label label-primary pull-right">12</span></a></li>
+                <li class="active"><a th:href="@{/inbox}"><i class="fa fa-inbox"></i> Boîte de réception
+                  <span class="label label-primary pull-right"><label th:text="${nbrMsg}"></label></span></a></li>
                 
-                <li><a href="#"><i class="fa fa-trash-o"></i> Supprimer</a></li>
+                <li><a th:href="@{/suppMessage(idMessage=${msg.idMesagerie})}"><i class="fa fa-trash-o"></i> Supprimer</a></li>
               </ul>
             </div>
             <!-- /.box-body -->
@@ -72,8 +72,8 @@
               <!-- /.mailbox-read-info -->
               <div class="mailbox-controls with-border text-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body" title="Supprimer">
-                    <i class="fa fa-trash-o"></i></button>
+                  <a th:href="@{/suppMessage(idMessage=${msg.idMesagerie})}" ><button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body" title="Supprimer">
+                    <i class="fa fa-trash-o"></i></button></a>
                 </div>
               </div>
               <!-- /.mailbox-controls -->
@@ -85,7 +85,7 @@
             
             <!-- /.box-footer -->
             <div class="box-footer">
-              <button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i> Supprimer</button>
+              <a th:href="@{/suppMessage(idMessage=${msg.idMesagerie})}" ><button type="button" class="btn btn-default"><i class="fa fa-trash-o"></i> Supprimer</button></a>
             </div>
             <!-- /.box-footer -->
           </div>

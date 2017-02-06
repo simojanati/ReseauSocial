@@ -44,8 +44,11 @@ public abstract class Utilisateur implements Serializable{
 	@JoinColumn(name="usernameUtilisateurRecoie",referencedColumnName="username")
 	private List<Messagerie> messageriesRecoie;
 	@OneToMany
-	@JoinColumn(name="usernameUtilisateur",referencedColumnName="username")
+	@JoinColumn(name="username",referencedColumnName="username")
 	private List<Notification> notifications;
+	@OneToMany
+	@JoinColumn(name="usernameNotifier",referencedColumnName="username")
+	private List<Notification> notifications2;
 	@OneToMany
 	@JoinColumn(name="username",referencedColumnName="username")
 	private List<Commenter> commenters;
@@ -57,7 +60,14 @@ public abstract class Utilisateur implements Serializable{
 	@OneToMany(mappedBy="id.utilisateur")
 	private List<Affecter> competences;
 	
-	
+	public List<Notification> getNotifications2() {
+		return notifications2;
+	}
+
+	public void setNotifications2(List<Notification> notifications2) {
+		this.notifications2 = notifications2;
+	}
+
 	public String getBranche() {
 		return branche;
 	}

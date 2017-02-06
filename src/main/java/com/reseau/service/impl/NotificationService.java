@@ -19,8 +19,8 @@ public class NotificationService implements INotificationService {
 	private INotificationRepository notificationRepository;
 	
 	@Override
-	public void ajouterNotification(Date date, String message, Utilisateur utilisateur) {
-		Notification notification = new Notification(date, message, utilisateur);
+	public void ajouterNotification(Date date, String message, String type, Utilisateur utilisateur, Utilisateur utilisateurNotifier) {
+		Notification notification = new Notification(date, message, utilisateur, utilisateurNotifier, type);
 		notificationRepository.save(notification);
 	}
 
@@ -38,8 +38,22 @@ public class NotificationService implements INotificationService {
 	}
 
 	@Override
-	public List<Notification> afficherToutLesNotifications() {
-		return notificationRepository.findAll();
+	public List<Notification> afficherToutLesNotificationsNonVu(Utilisateur utilisateur) {
+		return notificationRepository.afficherListeNotificationNonVu(utilisateur);
 	}
+
+	@Override
+	public void changerEtatVu(Long idNotification) {
+		Notification notification = afficherUneNotification(idNotification);
+		notification.setVu(true);
+		notificationRepository.save(notification);
+	}
+
+	@Override
+	public int nbrNotifNonVu(Utilisateur utilisateur) {
+		return notificationRepository.afficherNombreNotificationNonVu(utilisateur);
+	}
+
+	
 
 }

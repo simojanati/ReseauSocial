@@ -1,6 +1,7 @@
 package com.reseau.web;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.reseau.model.Classe;
 import com.reseau.model.Etudiant;
+import com.reseau.model.Notification;
 import com.reseau.model.Poste;
 import com.reseau.model.Professeur;
 import com.reseau.model.Utilisateur;
@@ -18,6 +20,7 @@ import com.reseau.service.IAttribuerService;
 import com.reseau.service.IClasseService;
 import com.reseau.service.ICommenterService;
 import com.reseau.service.IMessagerieService;
+import com.reseau.service.INotificationService;
 import com.reseau.service.IPosteService;
 import com.reseau.service.IRelationService;
 import com.reseau.service.IUtilisateurService;
@@ -39,6 +42,8 @@ public class GroupeController {
 	private ICommenterService commenterMetier;
 	@Autowired
 	private IMessagerieService messagerieMetier;
+	@Autowired
+	private INotificationService notificationMetier;
 	/*@Autowired
 	private ITypeService typeMetier;*/
 	
@@ -88,6 +93,11 @@ public class GroupeController {
 			groupes = classeMetier.afficherToutLesClassesParUtilisateur(utilisateur);
 		}
 		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		List<Notification> notifications = notificationMetier.afficherToutLesNotificationsNonVu(utilisateur);
+		Collections.sort(notifications,Collections.reverseOrder());
+		int nbrNotif = notificationMetier.nbrNotifNonVu(utilisateur);
+		model.addAttribute("notifications", notifications);
+		model.addAttribute("nbrNotif", nbrNotif);
 		model.addAttribute("nbrMsg", nbrMsg);
 		model.addAttribute("user", utilisateur);
 		model.addAttribute("nbrGroupe", nbrGroupe);
@@ -107,7 +117,13 @@ public class GroupeController {
 			groupes = classeMetier.afficherToutLesClassesParUtilisateur(utilisateur);
 		}
 		commenterMetier.ajouterCommentaire(utilisateur, poste, message);
+		notificationMetier.ajouterNotification(new Date(), message, "groupe", poste.getUtilisateur(),utilisateur);
 		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		List<Notification> notifications = notificationMetier.afficherToutLesNotificationsNonVu(utilisateur);
+		Collections.sort(notifications,Collections.reverseOrder());
+		int nbrNotif = notificationMetier.nbrNotifNonVu(utilisateur);
+		model.addAttribute("notifications", notifications);
+		model.addAttribute("nbrNotif", nbrNotif);
 		model.addAttribute("nbrMsg", nbrMsg);
 		model.addAttribute("user", utilisateur);
 		model.addAttribute("nbrGroupe", nbrGroupe);

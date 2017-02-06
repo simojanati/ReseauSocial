@@ -1,6 +1,7 @@
 package com.reseau.web;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.reseau.model.Classe;
 import com.reseau.model.EtatAmis;
 import com.reseau.model.Etudiant;
+import com.reseau.model.Notification;
 import com.reseau.model.Poste;
 import com.reseau.model.Professeur;
 import com.reseau.model.Utilisateur;
@@ -18,6 +20,7 @@ import com.reseau.service.IAttribuerService;
 import com.reseau.service.IClasseService;
 import com.reseau.service.ICommenterService;
 import com.reseau.service.IEtatAmisService;
+import com.reseau.service.INotificationService;
 import com.reseau.service.IPosteService;
 import com.reseau.service.IUtilisateurService;
 
@@ -36,6 +39,8 @@ public class CommentaireController {
 	private ICommenterService commenterMetier;
 	@Autowired
 	private IClasseService classeMetier;
+	@Autowired
+	private INotificationService notificationMetier;
 	
 	@RequestMapping("/ajouterCommentaireM")
 	public String ajouterCommentaireM(Model model, Long poste, String message){
@@ -54,6 +59,7 @@ public class CommentaireController {
 		Collections.sort(postes,Collections.reverseOrder());
 		Poste poste2 = posteMetier.afficherUnPoste(poste);
 		commenterMetier.ajouterCommentaire(user, poste2, message);
+		notificationMetier.ajouterNotification(new Date(), message, "normale", poste2.getUtilisateur(),user);
 		model.addAttribute("user", user);
 		model.addAttribute("nbrGroupe", nbrGroupe);
 		model.addAttribute("groupes",groupes);
@@ -78,6 +84,7 @@ public class CommentaireController {
 		Collections.sort(postes,Collections.reverseOrder());
 		Poste poste2 = posteMetier.afficherUnPoste(poste);
 		commenterMetier.ajouterCommentaire(user, poste2, message);
+		notificationMetier.ajouterNotification(new Date(), message, "normale", poste2.getUtilisateur(),user);
 		model.addAttribute("user", user);
 		model.addAttribute("nbrGroupe", nbrGroupe);
 		model.addAttribute("groupes",groupes);
@@ -107,8 +114,14 @@ public class CommentaireController {
 			Collections.sort(postes,Collections.reverseOrder());
 			Poste poste2 = posteMetier.afficherUnPoste(poste);
 			commenterMetier.ajouterCommentaire(utilisateur, poste2, message);
+			notificationMetier.ajouterNotification(new Date(), message, "normale", poste2.getUtilisateur(),utilisateur);
 			if(etatAmis!=null && etatAmis.getEtat().equals("accepter")) model.addAttribute("amis", "oui");
 			else model.addAttribute("amis", "non");
+			List<Notification> notifications = notificationMetier.afficherToutLesNotificationsNonVu(utilisateur);
+			Collections.sort(notifications,Collections.reverseOrder());
+			int nbrNotif = notificationMetier.nbrNotifNonVu(utilisateur);
+			model.addAttribute("notifications", notifications);
+			model.addAttribute("nbrNotif", nbrNotif);
 			model.addAttribute("user", utilisateur);
 			model.addAttribute("userSearch", utilisateur2);
 			model.addAttribute("nbrAmis", nbrAmis);

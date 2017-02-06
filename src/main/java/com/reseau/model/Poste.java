@@ -45,7 +45,6 @@ public class Poste implements Serializable, Comparable<Poste>{
 	@JoinColumn(name="idPoste",referencedColumnName="idPoste")
 	private List<Commenter> commenters;
 	
-	
 	public List<Commenter> getCommenters() {
 		Collections.sort(commenters);
 		return commenters;

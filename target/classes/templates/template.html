@@ -48,9 +48,9 @@
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
-              <span class="label label-success"><label th:text="${nbrMsg}"></label></span>
+              <span th:if="${nbrMsg} != 0 and ${nbrMsg} != null" class="label label-success"><label th:text="${nbrMsg}"></label></span>
             </a>
             <ul class="dropdown-menu">
               <li class="header">Vous avez <label th:text="${nbrMsg}"></label> messages</li>
@@ -73,49 +73,46 @@
                   
                 </ul>
               </li>
-              <li class="footer"><a href="@{/inbox}">Voir tous les messages</a></li>
+              <li class="footer"><a th:href="@{/inbox}">Voir tous les messages</a></li>
             </ul>
           </li>
           <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <li class="dropdown messages-menu">
+            <a class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">3</span>
+              <span th:if="${nbrNotif} != 0 and ${nbrNotif} != null" class="label label-warning"><label th:text="${nbrNotif}"></label></span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">Vous avez 3 notifications</li>
+              <li class="header">Vous avez <label th:text="${nbrNotif}"></label> notifications</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <li>
-                    <a href="#" class="msg" title="5 nouveaux membres se sont joints aujourd'hui">
-                      <i class="fa fa-users text-aqua"></i> 5 nouveaux membres se sont joints aujourd'hui
+                  <li th:each="n:${notifications}">                    
+                    <a th:href="@{/etatVuG(idNotification=${n.idNotification})}" th:if="${n.type} == 'groupe'" class="msg">
+                      <div class="pull-left">
+                        <img th:src="${n.utilisateurNotifier.photo}" class="img-circle" alt="User Image"/>
+                      </div>
+                      <h4>
+                        <label th:text="${n.utilisateurNotifier.nom}"></label> <label th:text="${n.utilisateurNotifier.prenom}"></label>
+                        <small><i class="fa fa-clock-o"></i> <label th:text="${#dates.format(n.date, 'dd/MM/YYYY à HH:mm')}"></label></small>
+                      </h4>
+                      <p>Commentaire dans un groupe</p>
+                      <p th:text="${n.message}"></p>
+                    </a>
+                    <a th:href="@{/etatVuP(idNotification=${n.idNotification})}" th:if="${n.type} == 'normale'" class="msg">
+                      <div class="pull-left">
+                        <img th:src="${n.utilisateurNotifier.photo}" class="img-circle" alt="User Image"/>
+                      </div>
+                      <h4>
+                        <label th:text="${n.utilisateurNotifier.nom}"></label> <label th:text="${n.utilisateurNotifier.prenom}"></label>
+                        <small><i class="fa fa-clock-o"></i> <label th:text="${#dates.format(n.date, 'dd/MM/YYYY à HH:mm')}"></label></small>
+                      </h4>
+                      <p>Commentaire : </p>
+                      <p th:text="${n.message}"></p>
                     </a>
                   </li>
-                  <li>
-                    <a href="#" class="msg" title="Très longue description ici qui peut ne pas entrer dans la page et peut causer des problèmes de conception">
-                      <i class="fa fa-warning text-yellow"></i> Très longue description ici qui peut ne pas entrer dans la page et peut causer des problèmes de conception
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="msg" title="Vous avez changé votre mot de passe">
-                      <i class="fa fa-user text-red"></i> Vous avez changé votre mot de passe
-                    </a>
-                  </li>
-                  <!-- <li>
-                    <a href="#">
-                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-red"></i> 5 new members joined
-                    </a>
-                  </li> -->
-                  
                 </ul>
               </li>
-              <li class="footer"><a href="#">Voir tout</a></li>
             </ul>
           </li>
           <!-- Tasks: style can be found in dropdown.less -->
@@ -217,14 +214,14 @@
           <a href="#">
             <i class="fa fa-envelope"></i>
             <span>Messagerie</span>
-            <span class="pull-right-container">
+            <span th:if="${nbrMsg} != 0 and ${nbrMsg} != null" class="pull-right-container">
               <span class="label label-primary pull-right" ><label th:text="${nbrMsg}"></label></span>
             </span>
           </a>
           <ul class="treeview-menu">
             <li class="active">
               <a th:href="@{/inbox}">Boîte de réception
-                <span class="pull-right-container">
+                <span th:if="${nbrMsg} != 0 and ${nbrMsg} != null" class="pull-right-container">
                   <span class="label label-primary pull-right"><label th:text="${nbrMsg}"></label></span>
                 </span>
               </a>

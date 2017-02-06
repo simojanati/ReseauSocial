@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 @Entity
-public class Notification implements Serializable{
+public class Notification implements Serializable, Comparable<Notification>{
 
 	/**
 	 * 
@@ -24,12 +24,37 @@ public class Notification implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="username")
 	private Utilisateur utilisateur;
+	@ManyToOne
+	@JoinColumn(name="usernameNotifier")
+	private Utilisateur utilisateurNotifier;
+	private boolean vu;
+	private String type;
+
 	
-	public Notification(Date date, String message, Utilisateur utilisateur) {
+	public Notification(Date date, String message, Utilisateur utilisateur, Utilisateur utilisateurNotifier, String type) {
 		
 		this.date = date;
 		this.message = message;
 		this.utilisateur = utilisateur;
+		this.utilisateurNotifier = utilisateurNotifier;
+		this.type = type;
+		this.vu = false;
+	}
+
+	public boolean isVu() {
+		return vu;
+	}
+
+	public void setVu(boolean vu) {
+		this.vu = vu;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Utilisateur getUtilisateur() {
@@ -67,6 +92,21 @@ public class Notification implements Serializable{
 	public Notification() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public int compareTo(Notification o) {
+		int cmprDate = this.date.compareTo(o.date);
+		if(cmprDate != 0) return cmprDate;
+		return 0;
+	}
+
+	public Utilisateur getUtilisateurNotifier() {
+		return utilisateurNotifier;
+	}
+
+	public void setUtilisateurNotifier(Utilisateur utilisateurNotifier) {
+		this.utilisateurNotifier = utilisateurNotifier;
 	}
 
 	

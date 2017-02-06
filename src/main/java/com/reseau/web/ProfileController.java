@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.reseau.model.Classe;
 import com.reseau.model.EtatAmis;
 import com.reseau.model.Etudiant;
+import com.reseau.model.Notification;
 import com.reseau.model.Poste;
 import com.reseau.model.Professeur;
 import com.reseau.model.Utilisateur;
@@ -19,6 +20,7 @@ import com.reseau.service.IAttribuerService;
 import com.reseau.service.IClasseService;
 import com.reseau.service.IEtatAmisService;
 import com.reseau.service.IMessagerieService;
+import com.reseau.service.INotificationService;
 import com.reseau.service.IPosteService;
 import com.reseau.service.IUtilisateurService;
 
@@ -37,6 +39,8 @@ public class ProfileController {
 	private IClasseService classeMetier;
 	@Autowired
 	private IMessagerieService messagerieMetier;
+	@Autowired
+	private INotificationService notificationMetier;
 	/*@Autowired
 	private ITypeService typeMetier;*/
 	
@@ -64,6 +68,11 @@ public class ProfileController {
 		Collections.sort(postes,Collections.reverseOrder());
 		afficherPostes(postes);
 		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		List<Notification> notifications = notificationMetier.afficherToutLesNotificationsNonVu(utilisateur);
+		Collections.sort(notifications,Collections.reverseOrder());
+		int nbrNotif = notificationMetier.nbrNotifNonVu(utilisateur);
+		model.addAttribute("notifications", notifications);
+		model.addAttribute("nbrNotif", nbrNotif);
 		model.addAttribute("nbrMsg", nbrMsg);
 		model.addAttribute("type", typeUtilisateur);
 		model.addAttribute("user", utilisateur);
@@ -82,6 +91,7 @@ public class ProfileController {
 		
 		Utilisateur utilisateur = utilisateurMetier.getConnectedManInfo();
 		Utilisateur utilisateur2 = utilisateurMetier.afficherUnUtilisateur(username);
+		if(utilisateur!=utilisateur2){
 		EtatAmis etatAmis = etatAmisMetier.afficherEtatAmis(utilisateur, utilisateur2);
 		if(utilisateur2!=null){
 			String ecoles = null;
@@ -101,6 +111,11 @@ public class ProfileController {
 			}
 			int nbrAmis = etatAmisMetier.afficherNombreAmisAccepter(utilisateur2);
 			int nbrGroupe2 = attribuerMetier.nbrGroupe(utilisateur2);
+			List<Notification> notifications = notificationMetier.afficherToutLesNotificationsNonVu(utilisateur);
+			Collections.sort(notifications,Collections.reverseOrder());
+			int nbrNotif = notificationMetier.nbrNotifNonVu(utilisateur);
+			model.addAttribute("notifications", notifications);
+			model.addAttribute("nbrNotif", nbrNotif);
 			List<Poste> postes = posteMetier.afficherAmisTager(utilisateur2);
 			Collections.sort(postes,Collections.reverseOrder());
 			afficherPostes(postes);
@@ -119,6 +134,9 @@ public class ProfileController {
 			return "profileSearch";
 		}else{
 			return "redirect:/404";
+		}
+		}else{
+			return "redirect:/profile";
 		}
 		
 	}

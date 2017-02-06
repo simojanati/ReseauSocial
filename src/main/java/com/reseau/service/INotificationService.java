@@ -8,9 +8,11 @@ import com.reseau.model.Utilisateur;
 
 public interface INotificationService {
 	
-	public void ajouterNotification(Date date, String message, Utilisateur utilisateur);
+	public void ajouterNotification(Date date, String message, String type, Utilisateur utilisateur, Utilisateur utilisateurNotifier);
 	public void supprimerNotification(Long idNotification);
 	public Notification afficherUneNotification(Long idNotification);
-	public List<Notification> afficherToutLesNotifications();
+	public List<Notification> afficherToutLesNotificationsNonVu(Utilisateur utilisateur);
+	public void changerEtatVu(Long idNotification);
+	public int nbrNotifNonVu(Utilisateur utilisateur);
 
 }
