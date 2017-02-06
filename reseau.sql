@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 05 Février 2017 à 05:08
+-- Généré le :  Lun 06 Février 2017 à 05:04
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.19
 
@@ -114,7 +114,14 @@ INSERT INTO `commenter` (`id_commentaire`, `message`, `date`, `id_poste`, `usern
 (4, 'test hhhhhhhhhhhhhhhhh', '2017-02-05 00:59:54', 41, 'janati'),
 (5, 'yes mister kadani', '2017-02-05 01:02:03', 37, 'janati'),
 (6, 'test prof comment', '2017-02-05 02:38:24', 36, 'habib'),
-(7, 'bon image', '2017-02-05 02:39:08', 48, 'habib');
+(7, 'bon image', '2017-02-05 02:39:08', 48, 'habib'),
+(8, 'comment', '2017-02-05 22:51:31', 49, 'kadani'),
+(9, 'test', '2017-02-05 22:54:46', 49, 'kadani'),
+(10, 'test notif', '2017-02-06 04:17:56', 49, 'janati'),
+(11, 'test notif 2', '2017-02-06 04:24:37', 49, 'janati'),
+(12, 'test notif 3', '2017-02-06 04:29:22', 49, 'janati'),
+(13, 'test notif 4', '2017-02-06 04:33:52', 49, 'janati'),
+(14, 'test notif ', '2017-02-06 04:47:06', 49, 'janati');
 
 -- --------------------------------------------------------
 
@@ -183,12 +190,25 @@ CREATE TABLE `evenement` (
 CREATE TABLE `messagerie` (
   `id_mesagerie` bigint(20) NOT NULL,
   `date` datetime DEFAULT NULL,
-  `message` varchar(255) DEFAULT NULL,
   `username_utilisateur_envoie` varchar(255) DEFAULT NULL,
   `username_utilisateur_recoie` varchar(255) DEFAULT NULL,
   `objet` varchar(255) DEFAULT NULL,
-  `vu` tinyint(1) DEFAULT '0'
+  `vu` tinyint(1) DEFAULT '0',
+  `message` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `messagerie`
+--
+
+INSERT INTO `messagerie` (`id_mesagerie`, `date`, `username_utilisateur_envoie`, `username_utilisateur_recoie`, `objet`, `vu`, `message`) VALUES
+(1, '2017-02-04 00:16:00', 'janati', 'kadani', 'Test Message 1', 0, '<h1><u>Heading Of Message</u></h1>\n<h4>Subheading</h4>\n<p>But I must explain to you how all this </p>\n<ul>\n<li>List item one</li>\n<li>List item two</li>\n<li>List item three</li>\n<li>List item four</li>\n</ul>\n<p>Thank you,</p>\n<p>John Doe</p>'),
+(2, '2017-02-05 00:28:00', 'habib', 'kadani', 'test message 2', 1, '<h1><u>Heading Of Message</u></h1>\r\n<h4>Subheading</h4>\r\n<p>But I must explain to you how all this </p>\r\n<ul>\r\n<li>List item one</li>\r\n<li>List item two</li>\r\n<li>List item three</li>\r\n<li>List item four</li>\r\n</ul>\r\n<p>Thank you,</p>\r\n<p>John Doe</p>'),
+(4, '2017-02-04 00:00:00', 'bachir', 'kadani', 'test message 4', 1, '<h1><u>Heading Of Message</u></h1> <h4>Subheading</h4> <p>But I must explain to you how all this </p> <ul> <li>List item one</li> <li>List item two</li> <li>List item three</li> <li>List item four</li> </ul> <p>Thank you,</p> <p>John Doe</p>'),
+(5, '2017-02-01 00:00:00', 'janati', 'kadani', 'test 5', 1, '<h1><u>Heading Of Message</u></h1> <h4>Subheading</h4> <p>But I must explain to you how all this </p> <ul> <li>List item one</li> <li>List item two</li> <li>List item three</li> <li>List item four</li> </ul> <p>Thank you,</p> <p>John Doe</p>'),
+(6, '2017-02-03 00:00:00', 'sabrine', 'kadani', 'test 6', 1, '<h1><u>Heading Of Message</u></h1> <h4>Subheading</h4> <p>But I must explain to you how all this </p> <ul> <li>List item one</li> <li>List item two</li> <li>List item three</li> <li>List item four</li> </ul> <p>Thank you,</p> <p>John Doe</p>'),
+(7, '2017-02-05 23:51:59', 'janati', 'sabrine', 'test envoi message', 0, '<h3><code><b></b><i></i>SimpleDateFormat</code>&nbsp;allows you to start by choosing any user-defined patterns for date-time formatting. However, you are encouraged to create a date-time formatter with either <code>getTimeInstance</code>, <code>getDateInstance</code>, or <code>getDateTimeInstance</code>&nbsp;in <code>DateFormat<i></i></code>.<b></b><b></b></h3><p></p><ul><li>Each of these class methods can return a date/time formatter initialized with a default format pattern.<br></li><li>You may modify the format pattern using the <code>applyPattern</code>&nbsp;methods as desired.&nbsp;<br></li><li>For more information on using these methods.<br></li><li><a target="_blank" rel="nofollow" href="http://www.google.com">http://www.google.com/</a> <br></li></ul><p></p>'),
+(8, '2017-02-05 23:57:35', 'janati', 'kadani', 'objet message avec img', 1, '<h1>test image :</h1><p><i><b>test</b></i><br><i><b><a target="_blank" rel="nofollow" href="http://www.facebook.com">http://www.facebook.com/</a><br></b></i><i><b><img alt="" src="http://akphoto4.ask.fm/828/603/393/1650003027-1qr2fs1-iirs680lcq7sqk0/original/hif.jpg"><br></b></i>');
 
 -- --------------------------------------------------------
 
@@ -200,9 +220,18 @@ CREATE TABLE `notification` (
   `id_notification` bigint(20) NOT NULL,
   `date` datetime DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `vu` bit(1) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
-  `username_utilisateur` varchar(255) DEFAULT NULL
+  `username_notifier` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `notification`
+--
+
+INSERT INTO `notification` (`id_notification`, `date`, `message`, `type`, `vu`, `username`, `username_notifier`) VALUES
+(1, '2017-02-06 04:47:06', 'test notif ', 'normale', b'1', 'kadani', 'janati');
 
 -- --------------------------------------------------------
 
@@ -260,7 +289,8 @@ INSERT INTO `poste` (`id_poste`, `date`, `statut`, `id_type`, `username`, `lien`
 (40, '2017-02-04 03:11:40', '', 3, 'kadani', '/dist/tmpFiles/kadani_test.txt', 'kadani_test.txt', NULL, 1),
 (41, '2017-02-04 10:52:03', '', 2, 'sabrine', '/dist/imagesPoste/sabrine_1.jpg', 'sabrine_1.jpg', NULL, 0),
 (48, '2017-02-04 15:40:02', '', 2, 'janati', '/dist/imagesPoste/janati_12000.jpg', 'janati_12000.jpg', NULL, 0),
-(49, '2017-02-04 16:10:08', 'test tag hhhhhh', 1, 'kadani', NULL, NULL, 'janati', 0);
+(49, '2017-02-04 16:10:08', 'test tag hhhhhh', 1, 'kadani', NULL, NULL, 'janati', 0),
+(51, '2017-02-05 19:02:52', 'test', 2, 'janati', '/dist/imagesPoste/janati_404.png', 'janati_404.png', 'kadani', 0);
 
 -- --------------------------------------------------------
 
@@ -448,7 +478,7 @@ ALTER TABLE `messagerie`
 ALTER TABLE `notification`
   ADD PRIMARY KEY (`id_notification`),
   ADD KEY `FKie5kw6lvphsq78cmbh33xfy7w` (`username`),
-  ADD KEY `FKl19ou90rosbqwu8gbboabkkaa` (`username_utilisateur`);
+  ADD KEY `FK6jie6v7m3qtf06p77pf3614sx` (`username_notifier`);
 
 --
 -- Index pour la table `poste`
@@ -504,7 +534,7 @@ ALTER TABLE `classe`
 -- AUTO_INCREMENT pour la table `commenter`
 --
 ALTER TABLE `commenter`
-  MODIFY `id_commentaire` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_commentaire` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT pour la table `evenement`
 --
@@ -514,17 +544,17 @@ ALTER TABLE `evenement`
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id_mesagerie` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mesagerie` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id_notification` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_notification` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `poste`
 --
 ALTER TABLE `poste`
-  MODIFY `id_poste` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id_poste` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 --
 -- AUTO_INCREMENT pour la table `type`
 --
@@ -579,8 +609,8 @@ ALTER TABLE `messagerie`
 -- Contraintes pour la table `notification`
 --
 ALTER TABLE `notification`
-  ADD CONSTRAINT `FKie5kw6lvphsq78cmbh33xfy7w` FOREIGN KEY (`username`) REFERENCES `utilisateur` (`username`),
-  ADD CONSTRAINT `FKl19ou90rosbqwu8gbboabkkaa` FOREIGN KEY (`username_utilisateur`) REFERENCES `utilisateur` (`username`);
+  ADD CONSTRAINT `FK6jie6v7m3qtf06p77pf3614sx` FOREIGN KEY (`username_notifier`) REFERENCES `utilisateur` (`username`),
+  ADD CONSTRAINT `FKie5kw6lvphsq78cmbh33xfy7w` FOREIGN KEY (`username`) REFERENCES `utilisateur` (`username`);
 
 --
 -- Contraintes pour la table `poste`
