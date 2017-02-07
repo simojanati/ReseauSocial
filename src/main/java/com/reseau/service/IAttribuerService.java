@@ -8,6 +8,7 @@ import com.reseau.model.Utilisateur;
 
 public interface IAttribuerService {
 
+	public void ajouterMembre(Etudiant etudiant, Classe classe);
 	public int nbrGroupe(Utilisateur utilisateur);
 	public List<Classe> afficherLesGroupes(Utilisateur utilisateur);
 	public int nbrEtudiant(Classe classe);

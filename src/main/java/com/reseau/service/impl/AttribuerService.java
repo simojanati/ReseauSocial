@@ -1,5 +1,6 @@
 package com.reseau.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.reseau.dao.IAttribuerRepository;
+import com.reseau.model.Attribuer;
+import com.reseau.model.AttribuerID;
 import com.reseau.model.Classe;
 import com.reseau.model.Etudiant;
 import com.reseau.model.Utilisateur;
@@ -36,5 +39,12 @@ public class AttribuerService implements IAttribuerService {
 	@Override
 	public List<Etudiant> afficherLesEtudiants(Classe classe) {
 		return attribuerRepository.afficherLesEtudiant(classe);
+	}
+
+	@Override
+	public void ajouterMembre(Etudiant etudiant, Classe classe) {
+		AttribuerID attribuerID = new AttribuerID(etudiant, classe);
+		Attribuer attribuer = new Attribuer(attribuerID, new Date());
+		attribuerRepository.save(attribuer);
 	}
 }

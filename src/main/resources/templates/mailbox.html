@@ -68,7 +68,7 @@
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Envoyer un message</a>
+          <a th:href="@{/ajouterMessage}" class="btn btn-primary btn-block margin-bottom">Envoyer un message</a>
 
           <div class="box box-solid">
             <div class="box-header with-border">
@@ -82,7 +82,7 @@
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a th:href="@{/inbox}"><i class="fa fa-inbox"></i> Boîte de réception
-                  <span class="label label-primary pull-right"><label th:text="${nbrMsg}"></label></span></a></li>
+                  <span class="label label-primary pull-right" th:if="${nbrMsg} != 0 and ${nbrMsg} != null" ><label th:text="${nbrMsg}"></label></span></a></li>
                 
                 <li><a href="#"><i class="fa fa-trash-o"></i> supprimer</a></li>
               </ul>

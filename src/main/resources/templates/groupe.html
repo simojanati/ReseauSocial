@@ -9,41 +9,7 @@
   <title>Groupe</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-  <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
- 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}"/>
-  <link rel="stylesheet" href="../static/dist/css/skins/_all-skins.min.css" th:href="@{/dist/css/skins/_all-skins.min.css}"/>
-  <style type="text/css">
-  	.scrollbar-inner{
-  		overflow: auto;
-  		max-height: 150px;
-  	}
-  	::-webkit-scrollbar {
-     	width: 15px;
-	}
-  	::-webkit-scrollbar-track {
-      	background-color: #A4A4A4;
-	}
-	 
-	::-webkit-scrollbar-thumb {
-	    background-color: rgba(0, 0, 0, 0.2); 
-	}
-	 
-	::-webkit-scrollbar-button {
-	    background-color: #A4A4A4;
-	} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
-	 
-	::-webkit-scrollbar-corner {
-	    background-color: black;
-	}
-  </style>
-
+  
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
@@ -319,11 +285,12 @@
               
               <div class="tab-pane" id="Membres">
 
+					<br/>
                 <div sec:authorize="hasRole('ROLE_PROFESSEUR')" class="post">
 					<form th:action="@{/ajouterMembre}" method="GET" class="sidebar-form">
-					<br/>
 				        <div class="input-group">
 				          <input type="text" name="username" class="form-control" placeholder="Ajouter un membre"/>
+				          <input type="hidden" name="idGroupe" th:value="${groupe.idClasse}" />
 				              <span class="input-group-btn">
 				                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-plus-square"></i>
 				                </button>
@@ -331,6 +298,7 @@
 				        </div>
 				     </form>                
                 </div>
+                <br/>
                 <ul class="menu">
                   <li th:each="e:${etudiants}" style="list-style:none;"><!-- start message -->
                     <a th:href="@{/profileChercher(username=${e.username})}" class="msg" >

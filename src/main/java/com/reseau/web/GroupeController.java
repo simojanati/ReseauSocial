@@ -81,6 +81,50 @@ public class GroupeController {
 		
 	}
 	
+	@RequestMapping(value="/ajouterMembre", method=RequestMethod.GET)
+	public String ajouterMembre(Model model, String username, Long idGroupe){
+		
+		Classe classe = classeMetier.afficherUneClasseParId(idGroupe);
+		List<Poste> postes = relationMetier.afficherPostesParClasse(classe);
+		Collections.sort(postes,Collections.reverseOrder());
+		afficherPostes(postes);
+		
+		int nbrEtudiants = attribuerMetier.nbrEtudiant(classe);
+		List<Etudiant> etudiants = attribuerMetier.afficherLesEtudiants(classe);
+		Utilisateur utilisateur = utilisateurMetier.getConnectedManInfo();
+		Utilisateur user = utilisateurMetier.afficherUnUtilisateur(username);
+		attribuerMetier.ajouterMembre((Etudiant) user, classe);
+		int nbrGroupe = 0;
+		List<Classe> groupes = null;
+		if(utilisateur instanceof Etudiant){
+			
+			nbrGroupe = attribuerMetier.nbrGroupe(utilisateur);
+			groupes = attribuerMetier.afficherLesGroupes(utilisateur);
+		}else if(utilisateur instanceof Professeur){
+			
+			nbrGroupe = classeMetier.afficherNbeClasses(utilisateur);
+			groupes = classeMetier.afficherToutLesClassesParUtilisateur(utilisateur);
+		}
+		int nbrMsg = messagerieMetier.afficherNbrMessageNonVu(utilisateur);
+		List<Notification> notifications = notificationMetier.afficherToutLesNotificationsNonVu(utilisateur);
+		Collections.sort(notifications,Collections.reverseOrder());
+		int nbrNotif = notificationMetier.nbrNotifNonVu(utilisateur);
+		
+		
+		model.addAttribute("notifications", notifications);
+		model.addAttribute("nbrNotif", nbrNotif);
+		model.addAttribute("nbrMsg", nbrMsg);
+		model.addAttribute("user", utilisateur);
+		model.addAttribute("nbrGroupe", nbrGroupe);
+		model.addAttribute("groupes",groupes);;
+		
+		model.addAttribute("groupe", classe);
+		model.addAttribute("etudiants", etudiants);
+		model.addAttribute("postes", postes);
+		model.addAttribute("nbrEtudiants", nbrEtudiants);
+		return "redirect:/groupe?idGroupe="+classe.getIdClasse();
+	}
+	
 	private Model user(Model model){
 		Utilisateur utilisateur = utilisateurMetier.getConnectedManInfo();
 		int nbrGroupe = 0;
@@ -130,6 +174,8 @@ public class GroupeController {
 		model.addAttribute("groupes",groupes);
 		return model;
 	}
+	
+	
 	
 	private void afficherPostes(List<Poste> postes){
 		System.out.println("---------------------------------------- DEBUT ---------------------------------------");
